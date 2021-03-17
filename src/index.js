@@ -15,35 +15,38 @@ import patch from './core/patch'
 //   eventListenersModule // attaches event listeners
 // ]);
 const vnode1 = h("ul", {}, [
-  h("li", {}, "A"),
-  h("li", {}, "B"),
-  h("li", {}, "C"),
-  h("li", {}, "D"),
-  h("li", {}, h("div", {}, "1234"))
+  h("li", {key:'a'}, "A"),
+  h("li", {key:'b'}, "B"),
+  h("li", {key:'c'}, "C"),
+  h("li", {key:'d'}, "D"),
+  h("li", {key:'e'}, h("div", {}, "1234"))
 ]);
-const vnode2 = h("div", {}, [
-  h("li", {}, "A"),
-  h("li", {}, "B"),
-  h("li", {}, "C"),
-  h("li", {}, "D"),
-  h("li", {}, h("div", {}, "1234"))
+const vnode2 = h("ul", {}, [
+  h("li", {key:'a'}, "A"),
+  h("li", {key:'b'}, "B"),
+  h("li", {key:'c'}, "C"),
+  h("li", {key:'d'}, "D"),
+  h("li", {key:'e'}, h("div", {}, "1234"))
 ]);
 const vnode3 = h("ul", {},'同一个节点，变为text');
 const vnode4 = h("ul", {}, [
-  h("li", {}, "A"),
-  h("li", {}, "D"),
-  h("li", {}, "C"),
-  h("li", {}, "B"),
-  h("li", {}, h("div", {}, "1234"))
+  h("li", {key:'a'}, "A"),
+  h("li", {key:'b'}, "D"),
+  h("li", {key:'c'}, h("div", {}, "1234")),
+  h("li", {key:'d'}, "B"),
+  h("li", {key:'e'}, h("div", {}, "11234"))
 ]);
 const dom = document.getElementById("container");
 patch(dom, vnode2);
+console.log('vnode2:111 ', vnode2);
 const btn = document.getElementById("btn");
 btn.onclick= function(){
+  console.log('btn: ', btn);
   // 不同节点
   // patch(vnode1, vnode2);
   // 相同节点 不同子节点 
-  patch(vnode2, vnode3);
+  // patch(vnode2, vnode3);
   // 相同节点，子节点都是children
-  // patch(vnode1,vnode4)
+  console.log('vnode2: ', vnode2);
+  patch(vnode2,vnode4)
 }

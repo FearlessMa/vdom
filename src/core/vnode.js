@@ -17,6 +17,6 @@ export default function vnode(sel, data, children, text, elm) {
     children,
     text,
     elm,
-    key: data.key || undefined
+    key: data.key 
   };
 }

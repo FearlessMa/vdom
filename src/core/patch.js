@@ -16,11 +16,10 @@ export default function patch(oldVnode, newVnode) {
     );
   }
   // 同一个虚拟节点
-  if (
-    oldVnode.key === newVnode.key &&
-    oldVnode.sel === newVnode.sel &&
-    oldVnode.elm === newVnode.elm
-  ) {
+  if (oldVnode.key === newVnode.key && oldVnode.sel === newVnode.sel) {
+    console.log('newVnode:1 ', newVnode);
+    console.log('oldVnode:1 ', oldVnode);
+    newVnode.elm = oldVnode.elm;
     patchVnode(oldVnode, newVnode);
     // if (oldVnode === newVnode) return;
     // console.log('是同一个节点');
@@ -51,6 +50,7 @@ export default function patch(oldVnode, newVnode) {
     // }
   } else {
     // 非同一个虚拟节点 暴力删除旧，挂载新
+    console.log('非同一个虚拟节点: ');
     const ele = createElement(newVnode);
     if (oldVnode.elm && oldVnode.elm.parentNode) {
       const parent = oldVnode.elm.parentNode;
