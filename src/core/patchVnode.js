@@ -3,8 +3,6 @@ import updateChildren from './updateChildren';
 
 // 实现 节点只有children 或者 text
 export default function patchVnode(oldVnode, newVnode) {
-  console.log('oldVnode: ', oldVnode);
-  console.log('newVnode: ', newVnode);
   if (oldVnode === newVnode) return;
   console.log('是同一个节点');
   // 同一个节点 新节点没有children，有text

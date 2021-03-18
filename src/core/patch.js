@@ -17,8 +17,6 @@ export default function patch(oldVnode, newVnode) {
   }
   // 同一个虚拟节点
   if (oldVnode.key === newVnode.key && oldVnode.sel === newVnode.sel) {
-    console.log('newVnode:1 ', newVnode);
-    console.log('oldVnode:1 ', oldVnode);
     newVnode.elm = oldVnode.elm;
     patchVnode(oldVnode, newVnode);
     // if (oldVnode === newVnode) return;
