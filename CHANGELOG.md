@@ -9,6 +9,7 @@
 * 双端比较 ([a2f34ac](https://github.com/FearlessMa/vdom/commit/a2f34ac7372793986b15631f514baa58a6d0ef12))
 * 双端比较 ([2e6e005](https://github.com/FearlessMa/vdom/commit/2e6e00547f5233b61865feaf4c32fb5d16087a8c))
 * 增加diff算法 ([6fb762a](https://github.com/FearlessMa/vdom/commit/6fb762a4fb525504e0324a9522350869e2263dd5))
+* 更新diff比较 ([9ea6e26](https://github.com/FearlessMa/vdom/commit/9ea6e2616cabd0f16afb89d945bfd12528dc8ee7))
 
 
 

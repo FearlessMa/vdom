@@ -14,7 +14,6 @@ export default function patchVnode(oldVnode, newVnode) {
     oldVnode.elm.innerText = newVnode.text;
   } else {
     // newVnode有children
-    console.log('同一个节点。且都有children: ');
     // 旧节点没有children
     if (!oldVnode.children) {
       console.log('旧节点没有children: ');

@@ -9,69 +9,96 @@ export default function updateChildren(parentElm, oldCh, newCh) {
   let newEndIdx = newCh.length - 1; // 新后
   let oldStartIdx = 0; // 旧前
   let oldEndIdx = oldCh.length - 1; // 旧后
-  let newStartNode = newCh[newStartIdx];
-  let newEndNode = newCh[newEndIdx];
-  let oldStartNode = oldCh[oldStartIdx];
-  let oldEndNode = oldCh[oldEndIdx];
+  let newStartVnode = newCh[newStartIdx];
+  let newEndVnode = newCh[newEndIdx];
+  let oldStartVnode = oldCh[oldStartIdx];
+  let oldEndVnode = oldCh[oldEndIdx];
   // 先做双端比较 ，知道 其中一个数组遍历完
   // 1. 新前 与 旧前 比较 相同 指针都加一 ，退出本轮循环 不同进入下一种比较
   // 2. 新后 与 旧后 比较 相同 指针都减一， 退出本轮循环 不同进入下一种比较
   // 3. 新前 与 旧后 比较 相同 新前指针-1 ，旧后指针+1，退出本轮循环 不同进入下一种比较
   // 4. 新后 与 旧前 比较 相同 新后指针-1， 旧前指针+1，退出本轮循环 不同进入下一种比较
   while (newStartIdx <= newEndIdx && oldStartIdx <= oldEndIdx) {
-    if (sameVnode(oldStartNode, newStartNode)) {
+    // 跳过标记为undefined的比较
+    if (oldStartVnode == null || oldCh[oldStartIdx] == undefined) {
+      oldStartVnode = oldCh[++oldStartIdx];
+    } else if (oldEndVnode == null || oldCh[oldEndIdx] == undefined) {
+      oldEndVnode = oldCh[--oldEndIdx];
+    } else if (newStartVnode == null || newCh[newStartIdx] == undefined) {
+      newStartVnode = newCh[++newStartIdx];
+    } else if (newEndVnode == null || newCh[newEndIdx] == undefined) {
+      newEndVnode = newCh[--newEndIdx];
+    } else if (sameVnode(oldStartVnode, newStartVnode)) {
       // 1 两个数组开始节点相等 。path比较子节点是否需要更新，
-      console.log('1: ', 1);
-      patch(oldStartNode, newStartNode);
+      console.log('1: 旧前与新前',1);
+      patch(oldStartVnode, newStartVnode);
       // node指向新节点 指针后移
-      newStartNode = newCh[++newStartIdx];
-      oldStartNode = oldCh[++oldStartIdx];
-    } else if (sameVnode(oldEndNode, newEndNode)) {
+      newStartVnode = newCh[++newStartIdx];
+      oldStartVnode = oldCh[++oldStartIdx];
+    } else if (sameVnode(oldEndVnode, newEndVnode)) {
       //  2 两个数组末尾节点相等 。path比较子节点是否需要更新
-      console.log('2: ', 2);
-      patch(oldEndNode, newEndNode);
+      console.log('2: 旧后与新后', 2);
+      patch(oldEndVnode, newEndVnode);
       // node指向新节点 指针前移
-      oldEndNode = oldCh[--oldEndIdx];
-      newEndNode = newCh[--newEndIdx];
-    } else if (sameVnode(oldEndNode, newStartNode)) {
+      oldEndVnode = oldCh[--oldEndIdx];
+      newEndVnode = newCh[--newEndIdx];
+    } else if (sameVnode(oldEndVnode, newStartVnode)) {
       // 3   在旧前之前 加入
       // new a d c b
       // old a b c d
-      console.log('3: ', 3);
+      console.log('3: 旧后与新前', 3);
       // 移动位置 在旧前之前加入旧后节点
-      parentElm.insertBefore(oldEndNode.elm, oldStartNode.elm);
+			console.log('oldStartVnode.elm): ', oldStartVnode.elm);
+			console.log('oldEndVnode.elm: ', oldEndVnode.elm);
+      parentElm.insertBefore(oldEndVnode.elm, oldStartVnode.elm);
       // patch 比较 新旧节点是否有变化
-      patch(oldEndNode, newStartNode);
-      oldEndNode = oldCh[--oldEndIdx];
-      newStartNode = newCh[++newStartIdx];
-    } else if (sameVnode(oldStartNode, newEndNode)) {
+      patch(oldEndVnode, newStartVnode);
+      oldEndVnode = oldCh[--oldEndIdx];
+      newStartVnode = newCh[++newStartIdx];
+    } else if (sameVnode(oldStartVnode, newEndVnode)) {
       // 4
       // new a d c b
       // old b c a d
 
-      console.log('4: ', 4);
+      console.log('4: 旧前与新后', 4);
       // 移动节点 在旧后的下一个兄弟节点之前加入
       parentElm.insertBefore(
-        oldStartNode.elm,
-        oldEndNode.elm.nextElementSibling
+        oldStartVnode.elm,
+        oldEndVnode.elm.nextElementSibling
       );
-      patch(oldStartNode, newEndNode);
-      oldStartNode = oldCh[++oldStartIdx];
-      newEndNode = newCh[--newEndIdx];
+      patch(oldStartVnode, newEndVnode);
+      oldStartVnode = oldCh[++oldStartIdx];
+      newEndVnode = newCh[--newEndIdx];
     } else {
       console.log('5: ', 5);
       // 全部未命中 没有 指针移动
       console.log('全部未命中: 没有指针移动');
       // old a b c d
-      // new c a d b
+      // new c a d f
+      let isFind = false;
       for (let i = 0; i < oldCh.length; i++) {
         console.log('oldCh[i]: ', oldCh[i]);
-        if (oldCh[i] != undefined && sameVnode(oldCh[i], newStartNode)) {
-          parentElm.insertBefore(oldCh[i].elm, oldStartNode.elm);
+        if (oldCh[i] != undefined && sameVnode(oldCh[i], newStartVnode)) {
+          parentElm.insertBefore(oldCh[i].elm, oldStartVnode.elm);
+					patch(oldCh[i],newStartVnode)
           oldCh[i] = undefined;
+          isFind = true;
         }
       }
-      newStartNode = newCh[++newStartIdx]; // 防止死循环
+      // 如果没找到 旧children中没有newStartNode,插入旧节点中，插入到oldCh[oldStartIdx]
+      if (!isFind) {
+        console.log('newStartVnode: ', newStartVnode);
+        console.log('newStartIdx: ', newStartIdx);
+        console.log('oldStartIdx: ', oldStartIdx);
+        console.log('oldCh[newStartIdx + 1].elm: ', oldCh[oldStartIdx].elm);
+        parentElm.insertBefore(
+          createElement(newStartVnode),
+          oldCh[oldStartIdx].elm
+        );
+        // isFind = false;
+      }
+
+      newStartVnode = newCh[++newStartIdx]; // 防止死循环
     }
   }
   // 如果newChildren遍历完 ，old有剩余，就是要删除的
@@ -81,17 +108,26 @@ export default function updateChildren(parentElm, oldCh, newCh) {
   if (newStartIdx > newEndIdx) {
     console.log('newEndIdx: ', newEndIdx);
     console.log('newStartIdx: ', newStartIdx);
-    console.log('newChildren遍历完 ，old有剩余，就是要删除的: ');
+    console.log('newChildren遍历完 ，oldChildren有剩余，就是要删除的: ');
     for (let i = oldStartIdx; i <= oldEndIdx; i++) {
       if (oldCh[i] !== undefined) {
         parentElm.removeChild(oldCh[i].elm);
       }
     }
   }
-  // 如果old遍历完，新的有剩余就是要增加的
+  // 如果old遍历完，新的有剩余就是要增加的 
   // new a b c d e
   // old a b c d
   // new e a b c d
   if (oldStartIdx > oldEndIdx) {
+		console.log('oldChildren遍历完，newChildren有剩余就是要增加的 : ' );
+    for (let i = newStartIdx; i <= newEndIdx; i++) {
+      if (newCh[i] !== undefined) {
+				// newEndIdx 指向最尾端 时为 null ，就是在末尾追加
+				// newEndIdx 指向 a 时，就是在 a 前增加
+        let pre = oldCh[newEndIdx] ? oldCh[newEndIdx].elm : null;
+        parentElm.insertBefore(createElement(newCh[i]),pre);
+      }
+    }
   }
 }
