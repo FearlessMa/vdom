@@ -42,9 +42,17 @@ const vnode4 = h('ul', {}, [
   h('li', { key: 'd' }, 'D')
 ]);
 
+// c a d b
+const vnode5 = h('ul', {}, [
+  h('li', { key: 'c' }, h('div', {}, '1234')),
+  h('li', { key: 'a' }, 'A'),
+  h('li', { key: 'd' }, 'D'),
+  h('li', { key: 'b' }, 'B'),
+]);
+
 const vnodeDec = h('ul', {}, [
   h('li', { key: 'd' }, 'D'),
-  h('li', { key: 'c' }, h('div', {}, '1234')),
+  h('li', { key: 'c' }, h('div', {}, '1234'))
   // h('li', { key: 'e' }, h('div', {}, '1234'))
 ]);
 const dom = document.getElementById('container');
@@ -73,7 +81,11 @@ btn.onclick = function () {
   // console.log('elLi.nextElementSibling: ', elLi.nextElementSibling); // null
   // elLi.parentElement.insertBefore(elDiv, elLi.nextElementSibling);
 
-
   // 删除节点
-  patch(vnode2,vnodeDec);
+  // patch(vnode2,vnodeDec);
+
+  //  5 情况 vnode5 全部为命中，指针未移动
+  // old a b c d
+  // new c a d b
+  patch(vnode2, vnode5);
 };

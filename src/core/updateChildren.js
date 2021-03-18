@@ -58,24 +58,40 @@ export default function updateChildren(parentElm, oldCh, newCh) {
       patch(oldStartNode, newEndNode);
       oldStartNode = oldCh[++oldStartIdx];
       newEndNode = newCh[--newEndIdx];
+    } else {
+      console.log('5: ', 5);
+      // 全部未命中 没有 指针移动
+      console.log('全部未命中: 没有指针移动');
+      // old a b c d
+      // new c a d b
+      for (let i = 0; i < oldCh.length; i++) {
+        console.log('oldCh[i]: ', oldCh[i]);
+        if (oldCh[i] != undefined && sameVnode(oldCh[i], newStartNode)) {
+          parentElm.insertBefore(oldCh[i].elm, oldStartNode.elm);
+          oldCh[i] = undefined;
+        }
+      }
+      newStartNode = newCh[++newStartIdx]; // 防止死循环
     }
   }
   // 如果newChildren遍历完 ，old有剩余，就是要删除的
-  // old a b c d 
+  // old a b c d
   // new c d
   // new d c
   if (newStartIdx > newEndIdx) {
+    console.log('newEndIdx: ', newEndIdx);
+    console.log('newStartIdx: ', newStartIdx);
     console.log('newChildren遍历完 ，old有剩余，就是要删除的: ');
     for (let i = oldStartIdx; i <= oldEndIdx; i++) {
-      parentElm.removeChild(oldCh[i].elm);
+      if (oldCh[i] !== undefined) {
+        parentElm.removeChild(oldCh[i].elm);
+      }
     }
   }
   // 如果old遍历完，新的有剩余就是要增加的
   // new a b c d e
-  // old a b c d 
+  // old a b c d
   // new e a b c d
-  if(oldStartIdx > oldEndIdx){
-
+  if (oldStartIdx > oldEndIdx) {
   }
-
 }
