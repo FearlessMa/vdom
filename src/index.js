@@ -2,38 +2,6 @@ import h from './core/h';
 import patch from './core/patch';
 const dom = document.getElementById('container');
 const btnGroup = document.getElementById('btnGroup');
-// patch(dom, vnode2);
-// const btn = document.getElementById('btn');
-// btn.onclick = function () {
-//   // 不同节点
-//   // patch(vnode1, vnode2);
-//   // 相同节点 不同子节点
-//   // patch(vnode2, vnode3);
-//   // 相同节点，子节点都是children
-//   // 1，3情况
-//   // new a d c b
-//   // old a b c d
-//   // 打印 1，3
-//   // patch(vnode2, vnode3);
-//   // 4 情况
-//   // new a d c b
-//   // old b c a d
-//   // patch(vnode2, vnode4);
-//   // 测试在 nextElementSibling = null 下插入位置为最后插入
-//   // let elDiv = document.createElement('div');
-//   // elDiv.innerText = 'div';
-//   // let elLi = document.querySelectorAll('li')[3];
-//   // console.log('elLi.nextElementSibling: ', elLi.nextElementSibling); // null
-//   // elLi.parentElement.insertBefore(elDiv, elLi.nextElementSibling);
-//   // 删除节点
-//   // patch(vnode2,vnodeDec);
-//   // 增加节点
-//   // patch(vnode2,vnodeInc)
-//   //  5 情况 vnode5 全部为命中，指针未移动
-//   // old a b c d
-//   // new c a d b
-//   // patch(vnode2, vnode5);
-// };
 function createBtn(fn, name) {
   const btn = document.createElement('button');
   btn.onclick = fn;

@@ -1,4 +1,10 @@
-#
+# 实现简易vDom
+
+- [x] `h`方法 (只能接收三个参数)
+- [x] `vnode`方法 (不能识别属性)
+- [x] `patch`方法 (不是对比属性，支持子元素，文本)
+- [x] 实现子元素的diff
+
 ```js
 // h函数生成vnode
 // h函数可以嵌套使用
@@ -17,6 +23,8 @@ vnode:{
   key:undefined
 }
 ```
+
+
 ## snabbdom
 ```js
 import { init } from 'snabbdom/init'
