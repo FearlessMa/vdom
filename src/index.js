@@ -171,13 +171,15 @@ createBtn(
 
 // 3-7 新旧节点相同 子元素 old children , new children 两端增加
 function diff37() {
+  console.log('=======需要先执行一次3-6========');
+
   console.log('vNode4: ', vNode4);
   patch(vNode36, vNode4);
   console.log('vNode4: ', vNode4);
 }
 createBtn(
   diff37,
-  ' 3-7 新旧节点相同 子元素 old children , new children 两端增加'
+  ' 3-7 新旧节点相同 子元素 old children , new children 两端增加eabcdf'
 );
 
 // 3-8 新旧节点相同 子元素 old children , new children 两端减少dabc
@@ -188,14 +190,6 @@ function diff38() {
     h('li', { key: 'b' }, 'B'),
     h('li', { key: 'c' }, 'C')
   ]);
-  // const vNode4 = h('ul', {}, [
-  //   h('li', { key: 'e' }, 'E'),
-  //   h('li', { key: 'a' }, 'A'),
-  //   h('li', { key: 'b' }, 'B'),
-  //   h('li', { key: 'c' }, 'C'),
-  //   h('li', { key: 'd' }, 'D'),
-  //   h('li', { key: 'f' }, 'F')
-  // ]);
   console.log('vNode4: ', vNode4);
   patch(vNode4, vNode);
 }
@@ -203,3 +197,18 @@ createBtn(
   diff38,
   ' 3-8 新旧节点相同 子元素 old children , new children 两端减少dabc'
 );
+// 3-9 新旧节点相同 子元素 old children abcd , new children  abcf
+function diff39() {
+  const vNode4 = h('ul', {}, [
+    h('li', { key: 'a' }, 'A'),
+    h('li', { key: 'b' }, 'B'),
+    h('li', { key: 'c' }, 'C'),
+    h('li', { key: 'f' }, 'f'),
+  ]);
+  patch( vNode,vNode4);
+}
+createBtn(
+  diff39,
+  '需要初始化： 3-9 新旧节点相同 子元素 old children：abcd , new children ：abcf'
+);
+
