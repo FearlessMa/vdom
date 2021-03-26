@@ -63,10 +63,7 @@ export default function updateChildren(parentElm, oldCh, newCh) {
 
       console.log('4: 旧前与新后', 4);
       // 移动节点 在旧后的下一个兄弟节点之前加入
-      parentElm.insertBefore(
-        oldStartVnode.elm,
-        oldEndVnode.elm.nextElementSibling
-      );
+      parentElm.insertBefore(oldStartVnode.elm, oldEndVnode.elm.nextElementSibling);
       patch(oldStartVnode, newEndVnode);
       oldStartVnode = oldCh[++oldStartIdx];
       newEndVnode = newCh[--newEndIdx];
@@ -115,12 +112,12 @@ export default function updateChildren(parentElm, oldCh, newCh) {
       let idxInOld = keyMap[newStartVnode.key];
       let pre = oldCh[newStartIdx] ? oldCh[newStartIdx].elm : null;
       if (idxInOld == undefined) {
-        console.log('idxInOld == undefined 需要新增的节点：',newStartVnode)
+        console.log('idxInOld == undefined 需要新增的节点：', newStartVnode);
         createElement(newStartVnode);
         parentElm.insertBefore(createElement(newStartVnode), pre);
       } else {
         let elmToMove = oldCh[idxInOld];
-        console.log('有idxInOld: 需要移动', idxInOld,elmToMove);
+        console.log('有idxInOld: 需要移动', idxInOld, elmToMove);
         // let pre = oldCh[newStartIdx] ? oldCh[newStartIdx].elm : null;
         parentElm.insertBefore(elmToMove.elm, pre);
         patch(elmToMove, newStartVnode);
@@ -135,7 +132,7 @@ export default function updateChildren(parentElm, oldCh, newCh) {
   // new d c
   if (oldStartIdx <= oldEndIdx) {
     for (let i = oldStartIdx; i <= oldEndIdx; i++) {
-      console.log('newChildren遍历完 ，oldChildren有剩余，就是要删除的: ',oldCh[i]);
+      console.log('newChildren遍历完 ，oldChildren有剩余，就是要删除的: ', oldCh[i]);
       if (oldCh[i] !== undefined) {
         parentElm && parentElm.removeChild(oldCh[i].elm);
       }
